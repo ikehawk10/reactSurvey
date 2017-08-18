@@ -19,3 +19,13 @@ input[type="text"] {
 	border-radius: 5px;
 	border: #ccc solid 1px;
 }
+
+.container {
+	width: 650px;
+	margin: auto;
+}
+
+form div {
+	margin-bottom: 15px;
+	line-height: 2.2em;
+}
