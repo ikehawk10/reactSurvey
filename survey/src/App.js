@@ -10,12 +10,14 @@ let config = {
     storageBucket: "simple-survey-4b3ee.appspot.com",
     messagingSenderId: "1041348638871"
   };
-  firebase.initializeApp(config);
+//initialize firebase with unique configurations
+firebase.initializeApp(config);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //generate a specific id per survey
       id: uuid.v1(),
       name: '',
       answer: {
@@ -41,9 +43,7 @@ class App extends Component {
       name: this.state.name,
       answers: this.state.answers
     });
-    this.setState({submitted: true}, function(){
-      console.log("Questions submitted!");
-    });
+    this.setState({submitted: true});
   }
 
   handleQuestionChange(e){
