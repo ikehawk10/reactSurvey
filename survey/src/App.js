@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import './App.css';
+let uuid = require('uuid');
+let firebase = require('firebase');
+let config = {
+    apiKey: "AIzaSyAZuQZGqJbg84IYRE2JEdfTmqbTaeIvKr0",
+    authDomain: "simple-survey-4b3ee.firebaseapp.com",
+    databaseURL: "https://simple-survey-4b3ee.firebaseio.com",
+    projectId: "simple-survey-4b3ee",
+    storageBucket: "simple-survey-4b3ee.appspot.com",
+    messagingSenderId: "1041348638871"
+  };
+  firebase.initializeApp(config);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
+      id: uuid.v1(),
       name: '',
       answer: {
         q1: '',
@@ -25,11 +36,18 @@ class App extends Component {
   }
 
   handleQuestionSubmit(e){
-
+    e.preventDefault();
+    firebase.database().ref('surveys/'+this.state.id).set({
+      name: this.state.name,
+      answers: this.state.answers
+    });
+    this.setState({submitted: true}, function(){
+      console.log("Questions submitted!");
+    });
   }
 
   handleQuestionChange(e){
-    var answers = this.state.answers;
+    var answers = this.state.answer;
     if(e.target.name === "q1"){
       answers.q1 = e.target.value;
     } else if(e.target.name === "q2") {
@@ -76,14 +94,14 @@ class App extends Component {
           </div>
           <div>
             <label>What is your favorite CPU brand?</label><br/> 
-            <input type="radio" name="q1" value="Intel" onChange={this.handleQuestionChange}/>Intel<br/>
-            <input type="radio" name="q1" value="AMD" onChange={this.handleQuestionChange}/>AMD<br/>
-            <input type="radio" name="q1" value="Nvidia" onChange={this.handleQuestionChange}/>Nvidia<br/>
-            <input type="radio" name="q1" value="ARM" onChange={this.handleQuestionChange}/>ARM<br/>
-            <input type="radio" name="q1" value="Other" onChange={this.handleQuestionChange}/>Other <br/>
+            <input type="radio" name="q4" value="Intel" onChange={this.handleQuestionChange}/>Intel<br/>
+            <input type="radio" name="q4" value="AMD" onChange={this.handleQuestionChange}/>AMD<br/>
+            <input type="radio" name="q4" value="Nvidia" onChange={this.handleQuestionChange}/>Nvidia<br/>
+            <input type="radio" name="q4" value="ARM" onChange={this.handleQuestionChange}/>ARM<br/>
+            <input type="radio" name="q4" value="Other" onChange={this.handleQuestionChange}/>Other <br/>
           </div>
+          <input type="submit" onSubmit={this.handleQuestionSubmit} />
         </form>
-Apple
       </span>
     } else if(!this.state.name && this.state.submitted === false){
       user = <span>
